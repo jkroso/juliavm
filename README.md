@@ -1,6 +1,4 @@
-# juliavm
-
-A Julia version manager
+# JuliaVM
 
 JuliaVM is a command-line tool which enables you to easilly download and use different versions of Julia.
 
@@ -11,8 +9,8 @@ curl "https://raw.githubusercontent.com/jkroso/juliavm/master/juliavm.sh" > /usr
 chmod +x /usr/local/bin/juliavm
 ```
 
-## Use
+## Usage
 
 ```bash
-juliavm install 0.6.0-rc1
+juliavm use 0.6.0-rc1
 ```
