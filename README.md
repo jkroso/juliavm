@@ -1,6 +1,6 @@
-# JuliaVM
+# JuliaVM OSX
 
-JuliaVM is a command-line tool which enables you to easilly download and use different versions of Julia.
+JuliaVM is a command-line tool for OSX which enables you to easilly download and use different versions of Julia.
 
 ## Install
 
