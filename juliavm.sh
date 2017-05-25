@@ -7,6 +7,10 @@ juliavm_ls_remote() {
   git ls-remote -t "https://github.com/JuliaLang/julia" | cut -d '/' -f 3 | cut -c 1 --complement | cut -d '^' -f 1
 }
 
+juliavm_latest() {
+  curl -s --head https://github.com/Julialang/julia/releases/latest | egrep -o 'v\d+\.\d+\.\d+'
+}
+
 juliavm_install(){
   major=${1:0:3}
   file="julia-$1-osx10.7+.dmg"
@@ -34,10 +38,13 @@ elif [[ "$1" == 'ls-local' ]]; then
   ls -1 "$JULIAVM_WORK_DIR"
 elif [[ "$1" == 'use' ]]; then
   juliavm_install "$2"
+elif [[ "$1" == 'latest' ]]; then
+  juliavm_latest
 else
   echo "  Available commands are:"
   echo "  use x.y.z         install x.y.x version"
   echo "  ls                list all remote versions"
   echo "  ls-local          list all local versions"
+  echo "  latest            print the latest available version"
   echo "  help              print this message"
 fi
