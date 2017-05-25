@@ -11,29 +11,32 @@ juliavm_install(){
   major=${1:0:3}
   file="julia-$1-osx10.7+.dmg"
   url="https://s3.amazonaws.com/julialang/bin/osx/x64/$major/$file"
-  dists_dir="$JULIAVM_WORK_DIR/dists/$1"
+  dists_dir="$JULIAVM_WORK_DIR/$1"
   if ! [ -d $dists_dir ]; then
     mkdir -p "$dists_dir"
     cd "$dists_dir"
-    wget "$url"
-    hdiutil attach $file
-    cp -r "/Volumes/Julia-$1/Julia-$major.app/Contents/Resources/julia/"* .
-    hdiutil detach "/Volumes/Julia-$1"
-    rm $file
-    echo "Julia "$1" installed!"
+    if wget "$url"; then
+      hdiutil attach $file
+      cp -r "/Volumes/Julia-$1/Julia-$major.app/Contents/Resources/julia/"* .
+      hdiutil detach "/Volumes/Julia-$1"
+      rm $file
+      echo "Julia "$1" installed!"
+    else
+      rm -r "$dists_dir"
+    fi
   fi
-  ln -sf "$JULIAVM_WORK_DIR/dists/$1/bin/julia" "/usr/local/bin/julia"
+  ln -sf "$JULIAVM_WORK_DIR/$1/bin/julia" "/usr/local/bin/julia"
 }
 
 if [[ "$1" == 'ls' ]]; then
   juliavm_ls_remote
 elif [[ "$1" == 'ls-local' ]]; then
-  ls -1 "$JULIAVM_WORK_DIR/dists"
+  ls -1 "$JULIAVM_WORK_DIR"
 elif [[ "$1" == 'use' ]]; then
   juliavm_install "$2"
 else
   echo "  Available commands are:"
-  echo "  use x.y.z         install x.y.x version [ARCHITECTURE]"
+  echo "  use x.y.z         install x.y.x version"
   echo "  ls                list all remote versions"
   echo "  ls-local          list all local versions"
   echo "  help              print this message"
