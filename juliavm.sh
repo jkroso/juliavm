@@ -8,7 +8,7 @@ juliavm_ls_remote() {
 }
 
 juliavm_latest() {
-  curl -s --head https://github.com/Julialang/julia/releases/latest | egrep -o 'v\d+\.\d+\.\d+'
+  curl -s --head https://github.com/Julialang/julia/releases/latest | egrep -o 'v\d+\.\d+\.\d+' | cut -c 1 --complement
 }
 
 juliavm_install(){
@@ -38,6 +38,8 @@ elif [[ "$1" == 'ls-local' ]]; then
   ls -1 "$JULIAVM_WORK_DIR"
 elif [[ "$1" == 'use' ]]; then
   juliavm_install "$2"
+elif [[ "$1" == 'update' ]]; then
+  juliavm_install $(juliavm_latest)
 elif [[ "$1" == 'latest' ]]; then
   juliavm_latest
 else
@@ -46,5 +48,6 @@ else
   echo "  ls                list all remote versions"
   echo "  ls-local          list all local versions"
   echo "  latest            print the latest available version"
+  echo "  update            use the latest available version"
   echo "  help              print this message"
 fi
