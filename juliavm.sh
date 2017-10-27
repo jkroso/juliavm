@@ -14,7 +14,7 @@ juliavm_latest() {
 juliavm_install(){
   major=${1:0:3}
   file="julia-$1-osx10.7+.dmg"
-  url="https://s3.amazonaws.com/julialang/bin/osx/x64/$major/$file"
+  url="https://julialang-s3.julialang.org/bin/osx/x64/$major/$file"
   dists_dir="$JULIAVM_WORK_DIR/$1"
   if ! [ -d $dists_dir ]; then
     mkdir -p "$dists_dir"
