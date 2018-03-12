@@ -32,6 +32,25 @@ juliavm_install(){
   ln -sf "$JULIAVM_WORK_DIR/$1/bin/julia" "/usr/local/bin/julia"
 }
 
+juliavm_nightly(){
+  nightly="$JULIAVM_WORK_DIR/nightly"
+  today=$(date -d $(date +%D) +%s)
+  if [ ! -d "$nightly" ] || [ $today -ge $(date -r "$nightly" +%s) ];
+  then
+    rm -rf "$nightly"
+    mkdir -p "$nightly"
+    cd "$nightly"
+    wget "https://julialangnightlies-s3.julialang.org/bin/mac/x64/julia-latest-mac64.dmg"
+    hdiutil attach 'julia-latest-mac64.dmg'
+    cp -r /Volumes/Julia-*-DEV-*/Julia-*.app/Contents/Resources/julia/* .
+    hdiutil detach /Volumes/Julia-*-DEV-*
+    rm 'julia-latest-mac64.dmg'
+    echo "$("$nightly/bin/julia" -v) installed"
+  fi
+  echo "$("$nightly/bin/julia" -v) installed"
+  ln -sf "$nightly/bin/julia" "/usr/local/bin/julia"
+}
+
 if [[ "$1" == 'ls' ]]; then
   juliavm_ls_remote
 elif [[ "$1" == 'ls-local' ]]; then
@@ -42,12 +61,15 @@ elif [[ "$1" == 'update' ]]; then
   juliavm_install $(juliavm_latest)
 elif [[ "$1" == 'latest' ]]; then
   juliavm_latest
+elif [[ "$1" == 'nightly' ]]; then
+  juliavm_nightly
 else
   echo "  Available commands are:"
-  echo "  use x.y.z         install x.y.x version"
+  echo "  use x.y.z         switch-to/install x.y.x version"
   echo "  ls                list all remote versions"
   echo "  ls-local          list all local versions"
   echo "  latest            print the latest available version"
   echo "  update            use the latest available version"
+  echo "  nightly           install and/or switch to the latest nightly build"
   echo "  help              print this message"
 fi
