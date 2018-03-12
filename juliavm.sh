@@ -64,12 +64,15 @@ elif [[ "$1" == 'latest' ]]; then
 elif [[ "$1" == 'nightly' ]]; then
   juliavm_nightly
 else
+  echo
   echo "  Available commands are:"
-  echo "  use x.y.z         switch-to/install x.y.x version"
-  echo "  ls                list all remote versions"
-  echo "  ls-local          list all local versions"
-  echo "  latest            print the latest available version"
-  echo "  update            use the latest available version"
-  echo "  nightly           install and/or switch to the latest nightly build"
-  echo "  help              print this message"
+  echo
+  echo "    use x.y.z    switch-to/install x.y.x version"
+  echo "    ls           list all remote versions"
+  echo "    ls-local     list all local versions"
+  echo "    latest       print the latest available version"
+  echo "    update       use the latest available version"
+  echo "    nightly      install and/or switch to the latest nightly build"
+  echo "    help         print this message"
+  echo
 fi
