@@ -32,6 +32,10 @@ juliavm_install(){
   ln -sf "$JULIAVM_WORK_DIR/$1/bin/julia" "/usr/local/bin/julia"
 }
 
+juliavm_rm(){
+  rm -r "$JULIAVM_WORK_DIR/$1"
+}
+
 juliavm_nightly(){
   nightly="$JULIAVM_WORK_DIR/nightly"
   today=$(date -d $(date +%D) +%s)
@@ -63,16 +67,19 @@ elif [[ "$1" == 'latest' ]]; then
   juliavm_latest
 elif [[ "$1" == 'nightly' ]]; then
   juliavm_nightly
+elif [[ "$1" == 'rm' ]]; then
+  juliavm_rm "$2"
 else
   echo
   echo "  Available commands are:"
   echo
-  echo "    use x.y.z    switch-to/install x.y.x version"
-  echo "    ls           list all remote versions"
-  echo "    ls-local     list all local versions"
-  echo "    latest       print the latest available version"
-  echo "    update       use the latest available version"
-  echo "    nightly      install and/or switch to the latest nightly build"
-  echo "    help         print this message"
+  echo "  use x.y.z    switch-to/install x.y.x version"
+  echo "  ls           list all remote versions"
+  echo "  ls-local     list all local versions"
+  echo "  latest       print the latest available version"
+  echo "  update       use the latest available version"
+  echo "  nightly      install and/or switch to the latest nightly build"
+  echo "  rm           uninstall a version of julia"
+  echo "  help         print this message"
   echo
 fi
