@@ -33,7 +33,7 @@ juliavm_install(){
 }
 
 juliavm_rm(){
-  rm -r "$JULIAVM_WORK_DIR/$1"
+  rm -rf "$JULIAVM_WORK_DIR/$1"
 }
 
 juliavm_nightly(){
